@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AzureCalculatorUtils
 // @namespace    https://azure.microsoft.com/
-// @version      0.1
+// @version      0.2
 // @description  Add Buttons for Expand/Collapse Items and Mass change region for all items in an Azure Calculator
 // @author       abicas
 // @match        https://azure.microsoft.com/*/pricing/calculator/
