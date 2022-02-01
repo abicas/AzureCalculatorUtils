@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=microsoft.com
 // @grant        none
 // @run-at       document-end
-// @updateURL    https://github.com/mygithubaccount/test/raw/master/test.user.js
-// @downloadURL  https://github.com/mygithubaccount/test/raw/master/test.user.js
+// @updateURL    https://github.com/abicas/AzureCalculatorUtils/raw/main/AzureCalculatorUtils.user.js
+// @downloadURL  https://github.com/abicas/AzureCalculatorUtils/raw/main/AzureCalculatorUtils.user.js
 // @require  http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
 

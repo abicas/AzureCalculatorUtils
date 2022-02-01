@@ -25,7 +25,7 @@ The userscript is an extension to a browser plugin called TamperMonkey. It is de
 Installation steps:
 
 1. Install [Tampermonkey](https://tampermonkey.net/) extension on your browser
-2. Add [AzureCalculatorUtils.user.js]() to it 
+2. Add [AzureCalculatorUtils.user.js](https://github.com/abicas/AzureCalculatorUtils/raw/main/AzureCalculatorUtils.user.js) to it. If Tampermonkey is correctly installed, it will ask for your permissions to install the userscript. 
 3. If the Azure Calculator is already open, refresh the page. 
 
 ### FAQ
