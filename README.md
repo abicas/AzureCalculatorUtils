@@ -30,12 +30,12 @@ Installation steps:
 
 ### FAQ
 
-1. When I click a button, the browser hangs for a few seconds. 
+** 1. When I click a button, the browser hangs for a few seconds. ** 
 This is a normal behavior of Tampermonkey, with blocking threads. 
 Every lineitem that needs to be changed/expanded/collapsed trigger api calls to Microsoft that take around 1s each. Depending on the amount of line items on the calculator we can have a long time waiting for the process to run (with even the browser asking to terminate or wait). Hang in there, it is running and even having to hold on for a while, it is way faster then expanding manually each line item, changing the region, and then collapsing it. 
 For updated status, check the Javascript/Developer Console for status messages during the execution loop. 
 
-2. How do I know if the task is still running ? 
+** 2. How do I know if the task is still running ? ** 
 When you click a button, it will become blue. It will remain blue while the task is running, returning to white when finished. 
 
 ### TO-DO
