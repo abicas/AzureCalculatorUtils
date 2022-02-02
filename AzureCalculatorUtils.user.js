@@ -156,6 +156,7 @@ $(document).ready(function(){
         console.log("TAMPERMONKEY - Adding Buttons ... ");
         var mydiv = document.querySelector("div.column.large-6.calculator-actions");
         var lasthidden  = mydiv.querySelector ("p");
+        var br = document.createElement("br");
 
 
         var btn           = document.createElement("button");
@@ -195,6 +196,7 @@ $(document).ready(function(){
         btn3.style.marginTop = "5px";
         btn3.onclick       = function() { changeregions(); };
         mydiv.insertBefore (btn3, select);
+        mydiv.insertBefore(br, btn3);
 
         select = document.createElement('select');
         select.id = 'tampermonkey-new-ri';
