@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AzureCalculatorUtils
 // @namespace    https://azure.microsoft.com/
-// @version      0.2
+// @version      0.3
 // @description  Add Buttons for Expand/Collapse Items and Mass change region for all items in an Azure Calculator
 // @author       abicas
 // @match        https://azure.microsoft.com/*/pricing/calculator/
@@ -213,6 +213,9 @@ $(document).ready(function(){
         btn3.style.marginTop = "5px";
         btn3.onclick       = function() { changereservation(); };
         mydiv.insertBefore (btn3, select);
+
+        var br = document.createElement("br");
+        mydiv.insertBefore(br, btn3);
 
         var tempElement = document.createElement('div');
         tempElement.id="spinner-div";
