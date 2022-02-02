@@ -5,9 +5,8 @@
 Among the features that were missing: 
 - Collapse All Items button
 - Expand All Items button
-- Mass Change Region
-- Mass change On-demand to Reserved Instances 
-- among others...
+- Batch Change Region
+- Batch Change Reservation (On-demand to Reserved Instances)
 
 This userscript is the consequence of those needs on a daily basis. Please contribute with your insights as well ! 
 
@@ -38,12 +37,14 @@ For updated status, check the Javascript/Developer Console for status messages d
 **2. How do I know if the task is still running ?** 
 When you click a button, it will become blue. It will remain blue while the task is running, returning to white when finished. 
 
+**3. I opened up a large estimate, and the buttons are not showing.** 
+The script waits for 10 seconds for the page to load and all default  Microsoft API calls to be made to kick-in. Depending on the size of the estimate, it can take more than 10s for the calculator to be fully operational and the function that renders the button will timeout. In that case, just hit refresh on the browser and once the data was already loaded, they should show up normally.  
+
 ### TO-DO
 
 Some features have already been identified to be missing: 
-- Modal spinner while running tasks 
+- Show/Hide a modal spinner while running tasks 
 - Detailed on-screen status/progress
-- Change On-demand/Reserved Instance for VMs
 - You name it ! 
 
 Please contribute! 
