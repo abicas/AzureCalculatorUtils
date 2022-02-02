@@ -17,7 +17,8 @@ $(document).ready(function(){
     'use strict';
     // to-do: get it from existing item vs hardcoded
     var regionlist= `<select aria-label="Região" class="select" name="region"><optgroup label="Estados Unidos"><option value="us-central" class="">Central US</option><option value="us-west-central" class="">Centro-Oeste dos EUA</option><option value="us-east" class="">East US</option><option value="us-east-2" class="">East US 2</option><option value="us-north-central" class="">North Central US</option><option value="us-west" class="">Oeste dos EUA</option><option value="us-south-central" class="">South Central US</option><option value="us-west-2" class="">West US 2</option><option value="us-west-3" class="">West US 3</option></optgroup><optgroup label="Reino Unido"><option value="united-kingdom-south" class="">UK South</option><option value="united-kingdom-west" class="">UK West</option></optgroup><optgroup label="Emirados Árabes Unidos"><option value="uae-north" class="">Emirados Árabes Unidos</option><option value="uae-central" class="">UAE Central</option></optgroup><optgroup label="Suíça"><option value="switzerland-north" class="">Norte da Suíça</option><option value="switzerland-west" class="">Switzerland West</option></optgroup><optgroup label="Sweden"><option value="sweden-central" class="">Suécia Central</option><option value="sweden-south" class="">Sul da Suécia</option></optgroup><optgroup label="Noruega"><option value="norway-east" class="">Norway East</option><option value="norway-west" class="">Norway West</option></optgroup><optgroup label="Coreia do Sul"><option value="korea-south" class="">Coreia do Sul</option><option value="korea-central" class="">Korea Central</option></optgroup><optgroup label="Japão"><option value="japan-east" class="">Japan East</option><option value="japan-west" class="">Japan West</option></optgroup><optgroup label="Índia"><option value="central-india" class="">Índia Central</option><option value="west-india" class="">Índia Ocidental</option><option value="south-india" class="">South India</option></optgroup><optgroup label="Alemanha"><option value="germany-central" class="">Germany Central (Sovereign)</option><option value="germany-north" class="">Germany North</option><option value="germany-northeast" class="">Germany Northeast (Sovereign)</option><option value="germany-west-central" class="">Germany West Central</option></optgroup><optgroup label="França"><option value="france-central" class="">France Central</option><option value="france-south" class="">France South</option></optgroup><optgroup label="Europa"><option value="europe-north" class="">North Europe</option><option value="europe-west" class="">West Europe</option></optgroup><optgroup label="Canadá"><option value="canada-central" class="">Canada Central</option><option value="canada-east" class="">Canada East</option></optgroup><optgroup label="Brasil"><option value="brazil-south" class="">Brazil South</option><option value="brazil-southeast" class="">Sudeste do Brasil</option></optgroup><optgroup label="Azure Governamental"><option value="usgov-arizona" class="">US Gov Arizona</option><option value="usgov-texas" class="">US Gov Texas</option><option value="usgov-virginia" class="">US Gov Virginia</option></optgroup><optgroup label="Austrália"><option value="australia-central" class="">Australia Central</option><option value="australia-central-2" class="">Australia Central 2</option><option value="australia-east" class="">Australia East</option><option value="australia-southeast" class="">Australia Southeast</option></optgroup><optgroup label="Pacífico Asiático"><option value="asia-pacific-east" class="">Leste da Ásia</option><option value="asia-pacific-southeast" class="">Southeast Asia</option></optgroup><optgroup label="África"><option value="south-africa-north" class="">South Africa North</option><option value="south-africa-west" class="">South Africa West</option></optgroup></select>`;
-    
+    var rilist= `<option value="payg" class="">Pay as You Go</option><option value="one-year" class="">1 Year RI</option><option value="three-year" class="">3 Years RI</option>`;
+
     // to-do: show modal with spinner
     function toggleSpinner() {
         var spinner = document.querySelector("#spinner-div");
@@ -29,6 +30,11 @@ $(document).ready(function(){
             document.body.style.cursor = "initial"
 
         }
+    }
+
+    function getdisplayname(element) {
+        var vmname = element.querySelector("[name=displayName]");
+        return vmname.value;
     }
 
     function togglelineitem (lineitem, state) {
@@ -47,8 +53,8 @@ $(document).ready(function(){
             if (btncollapse.className === "module-name collapsible false") {
                 evento.initEvent("click",true,false);
                 btncollapse.dispatchEvent(evento);
-            }  
-        }        
+            }
+        }
     }
 
 
@@ -62,6 +68,8 @@ $(document).ready(function(){
       var lineitems = document.querySelectorAll("div.wa-calcService");
       lineitems.forEach(lineitem => {
           togglelineitem(lineitem, true);
+
+          console.log("Changing: "+getdisplayname(lineitem));
 
           //find the region drop down insite lineitem
           var regionselect = lineitem.querySelector("[name=region]");
@@ -79,6 +87,29 @@ $(document).ready(function(){
 
    }
 
+    function changereservation() {
+      var newriselect = document.getElementById('tampermonkey-new-ri').value;
+      console.log ("TAMPERMONKEY - Changing Reservation of all VMs to: "+newriselect);
+      var event = document.createEvent("HTMLEvents");
+
+      // get all line items in calculator
+      var lineitems = document.querySelectorAll("div.wa-calcService");
+      lineitems.forEach(lineitem => {
+          togglelineitem(lineitem, true);
+          var vm = lineitem.querySelector("div[id^=virtual-machines][id$=layout]");
+          if ( vm != null ) {
+              var vmname = vm.querySelector("[name=displayName]");
+              console.log("Changing: "+vmname.value);
+              var reservations = vm.querySelectorAll("input[name$=computeBillingOption]");
+              reservations.forEach(radiobtn => {
+                  if (radiobtn.value == newriselect) {
+                    $('input[id="'+radiobtn.id+'"]').prop('checked', 'checked').trigger('click');
+                  }
+              });
+          };
+      });
+      console.log ("TAMPERMONKEY - Changing Reservations - DONE");
+   }
 
    function openall() {
         console.log("TAMPERMONKEY - Expanding Items ... ");
@@ -126,14 +157,14 @@ $(document).ready(function(){
         var mydiv = document.querySelector("div.column.large-6.calculator-actions");
         var lasthidden  = mydiv.querySelector ("p");
 
-       
+
         var btn           = document.createElement("button");
         btn.type          = 'button';
         btn.innerHTML         = 'Expand All';
         btn.classList.add ("calculator-button");
         btn.classList.add ("button-transparent");
         btn.id = "open-all";
-        btn.style.marginTop = "5px"; 
+        btn.style.marginTop = "5px";
         btn.onclick       = function() { openall(); };
         mydiv.insertBefore (btn, lasthidden);
 
@@ -143,11 +174,11 @@ $(document).ready(function(){
         btn2.classList.add ("calculator-button");
         btn2.classList.add ("button-transparent");
         btn2.id = "collapse-all";
-        btn2.style.marginTop = "5px"; 
+        btn2.style.marginTop = "5px";
         btn2.onclick       = function() { collapseall(); };
         mydiv.insertBefore (btn2, btn);
 
-        const select = document.createElement('select');
+        var select = document.createElement('select');
         select.id = 'tampermonkey-new-region';
         select.classList.add("select");
         select.style.width="200px";
@@ -161,10 +192,28 @@ $(document).ready(function(){
         btn3.classList.add ("calculator-button");
         btn3.classList.add ("button-transparent");
         btn3.id = "region-changer";
-        btn3.style.marginTop = "5px"; 
+        btn3.style.marginTop = "5px";
         btn3.onclick       = function() { changeregions(); };
         mydiv.insertBefore (btn3, select);
-        
+
+        select = document.createElement('select');
+        select.id = 'tampermonkey-new-ri';
+        select.classList.add("select");
+        select.style.width="200px";
+        select.innerHTML = rilist;
+        select.style.display = "inline";
+        mydiv.insertBefore (select, lasthidden);
+
+        btn3           = document.createElement("button");
+        btn3.type          = 'button';
+        btn3.innerHTML         = 'Change Reservation to';
+        btn3.classList.add ("calculator-button");
+        btn3.classList.add ("button-transparent");
+        btn3.id = "ri-changer";
+        btn3.style.marginTop = "5px";
+        btn3.onclick       = function() { changereservation(); };
+        mydiv.insertBefore (btn3, select);
+
         var tempElement = document.createElement('div');
         tempElement.id="spinner-div";
         tempElement.innerHTML = `<img src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/images/bx_loader.gif" id="spinner-img"> <p> Please Wait...</p>`;
